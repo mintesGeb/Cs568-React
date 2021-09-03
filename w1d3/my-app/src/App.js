@@ -7,37 +7,118 @@ import Counter1 from "./Counter1";
 import FirstName from "./firstName";
 import LastName from "./lastName";
 import Age from "./age";
+import Photo from "./photo";
+import { checkPropTypes } from "prop-types";
 
 class App extends React.Component {
   state = {
-    students: [{ fname: "mintesinot", lname: "gebre", age: 30 }],
+    students: [
+      { id: "1", fname: "mintesinot", lname: "gebre", age: 30 },
+      { id: "2", fname: "jos", lname: "tek", age: 26 },
+    ],
+    isVisible: false,
+    dummy: "dummy value",
+    photoUrl: "https://picsum.photos/200",
+    desc: "this is random student photo",
   };
-  handleIncrement = () => {
-    this.setState({
-      students: [
-        {
-          fname: this.state.students[0].fname,
-          lname: this.state.students[0].lname,
-          age: this.state.students[0].age + 1,
-        },
-      ],
+  handleIncrement = (id) => {
+    let result = this.state.students.map((item) => {
+      if (item.id == id) {
+        let copy = { ...item };
+        copy.age = copy.age + 1;
+        return copy;
+      }
+      return item;
     });
+    this.setState({ students: result });
+    // this.setState({
+    //   students: [
+    //     {
+    //       fname: this.state.students[0].fname,
+    //       lname: this.state.students[0].lname,
+    //       age: this.state.students[0].age + 1,
+    //     },
+    //   ],
+    // });
   };
-  handleDecrement = () => {
-    this.setState({
-      students: [
-        {
-          fname: this.state.students[0].fname,
-          lname: this.state.students[0].lname,
-          age: this.state.students[0].age - 1,
-        },
-      ],
+  handleDecrement = (id) => {
+    let result = this.state.students.map((item) => {
+      if (item.id == id) {
+        let copy = { ...item };
+        copy.age = copy.age - 1;
+        return copy;
+      }
+      return item;
     });
+    this.setState({ students: result });
+    // this.setState({
+    //   students: [
+    //     {
+    //       fname: this.state.students[0].fname,
+    //       lname: this.state.students[0].lname,
+    //       age: this.state.students[0].age - 1,
+    //     },
+    //   ],
+    // });
+    // console.log(this.state);
   };
+
+  changeName = (id, event) => {
+    let result = this.state.students.map((item) => {
+      if (id == item.id) {
+        let copy = { ...item };
+        copy.fname = event.target.value;
+        return copy;
+      }
+      return item;
+    });
+    this.setState({ students: result });
+  };
+  toggleClicked = () => {
+    this.setState({ isVisible: !this.state.isVisible });
+  };
+
   render() {
+    let student = null;
+    if (this.state.isVisible) {
+      student = this.state.students.map((stu) => {
+        return (
+          <div key={stu.id}>
+            <FirstName
+              fname={stu.fname}
+              changeName={(event) => {
+                this.changeName(stu.id, event);
+              }}
+            >
+              My first name is{" "}
+            </FirstName>
+            <LastName lname={stu.lname}>My Last name is </LastName>
+            <Age
+              age={stu.age}
+              handleDecrement={() => this.handleDecrement(stu.id)}
+              handleIncrement={() => this.handleIncrement(stu.id)}
+            >
+              I am{" "}
+            </Age>
+          </div>
+        );
+      });
+    }
     return (
       <div>
-        <FirstName fname={this.state.students[0].fname}>
+        <input
+          type="button"
+          value="Toggle Students"
+          onClick={this.toggleClicked}
+        />
+
+        {student}
+        {/* <FirstName
+          fname={this.state.students[0].fname}
+          changeName={(event) => {
+            this.changeName(this.state.students[0].id, event);
+          }}
+        >
           My first name is{" "}
         </FirstName>
         <LastName lname={this.state.students[0].lname}>
@@ -45,11 +126,45 @@ class App extends React.Component {
         </LastName>
         <Age
           age={this.state.students[0].age}
-          handleDecrement={this.handleDecrement}
-          handleIncrement={this.handleIncrement}
+          handleDecrement={() =>
+            this.handleDecrement(this.state.students[0].id)
+          }
+          handleIncrement={() =>
+            this.handleIncrement(this.state.students[0].id)
+          }
         >
           I am{" "}
         </Age>
+        <FirstName
+          fname={this.state.students[1].fname}
+          changeName={(event) => {
+            this.changeName(this.state.students[1].id, event);
+          }}
+        >
+          My first name is{" "}
+        </FirstName>
+        <LastName lname={this.state.students[1].lname}>
+          My Last name is{" "}
+        </LastName>
+        <Age
+          age={this.state.students[1].age}
+          handleDecrement={() =>
+            this.handleDecrement(this.state.students[1].id)
+          }
+          handleIncrement={() =>
+            this.handleIncrement(this.state.students[1].id)
+          }
+        >
+          I am{" "}
+        </Age> */}
+        {/* <Student
+          fname={this.state.students[0].fname}
+          age={this.state.students[0].age}
+        />
+        <p>{this.state.dummy}</p>
+        <Photo src={this.state.photoUrl} alt={this.state.desc}>
+          Please replace with real picture
+        </Photo> */}
       </div>
     );
   }

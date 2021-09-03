@@ -1,14 +1,27 @@
 // import logo from "./logo.svg";
 import "./App.css";
-import Students from "./students";
+import Students from "./student";
 import React from "react";
 
 class App extends React.Component {
   state = {
     students: [
-      { id: "1", fname: "mintes", lname: "gebre", age: 30 },
-      { id: "2", fname: "jossy", lname: "tekle", age: 26 },
+      {
+        id: "1",
+        fname: "mintes",
+        lname: "gebre",
+        age: 30,
+        location: "Greenbelt",
+      },
+      {
+        id: "2",
+        fname: "jossy",
+        lname: "tekle",
+        age: 26,
+        location: "Fairfield",
+      },
     ],
+    isVisible: true,
   };
   incrementHandler = (id) => {
     let result = this.state.students.map((student) => {
@@ -54,34 +67,54 @@ class App extends React.Component {
     });
     this.setState({ students: result });
   };
+  toggleStudents = () => {
+    this.setState({ isVisible: !this.state.isVisible });
+  };
+  deleteStudent = (id) => {
+    let result = this.state.students.filter((stu) => stu.id !== id);
+    this.setState({ students: result });
+  };
 
   render() {
+    let student = null;
+    if (this.state.isVisible) {
+      student = this.state.students.map((stu) => {
+        return (
+          <Students
+            key={stu.id}
+            fname={stu.fname}
+            lname={stu.lname}
+            age={stu.age}
+            location={stu.location}
+            incrementHandler={() => {
+              this.incrementHandler(stu.id);
+            }}
+            decrementHandler={() => {
+              this.decrementHandler(stu.id);
+            }}
+            fnameChange={(event) => {
+              this.fnameChange(stu.id, event);
+            }}
+            lnameChange={(event) => {
+              this.lnameChange(stu.id, event);
+            }}
+            deleteStudent={() => {
+              this.deleteStudent(stu.id);
+            }}
+          >
+            Lucky To be a student
+          </Students>
+        );
+      });
+    }
     return (
       <div>
-        {this.state.students.map((stu) => {
-          return (
-            <Students
-              key={stu.id}
-              fname={stu.fname}
-              lname={stu.lname}
-              age={stu.age}
-              incrementHandler={() => {
-                this.incrementHandler(stu.id);
-              }}
-              decrementHandler={() => {
-                this.decrementHandler(stu.id);
-              }}
-              fnameChange={(event) => {
-                this.fnameChange(stu.id, event);
-              }}
-              lnameChange={(event) => {
-                this.lnameChange(stu.id, event);
-              }}
-            >
-              Lucky To be a student
-            </Students>
-          );
-        })}
+        <input
+          type="button"
+          value="Show Students"
+          onClick={this.toggleStudents}
+        />
+        {student}
         {/* <Students
           fname={this.state.students[0].fname}
           lname={this.state.students[0].lname}

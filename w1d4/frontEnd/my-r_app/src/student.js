@@ -9,6 +9,8 @@ class Students extends React.Component {
             <b>{this.props.children}</b>
           </i>
         </p>
+        <button onClick={this.props.deleteStudent}>Delete</button>
+        <br />
         <span>{this.props.fname} </span>
         <span>{this.props.lname}</span>
         <br />
@@ -22,7 +24,8 @@ class Students extends React.Component {
           value={this.props.lname}
           onChange={this.props.lnameChange}
         />
-        <p>{this.props.age}</p>
+        <p>Location: {this.props.location}</p>
+        <p>Age: {this.props.age}</p>
         <input
           type="button"
           value="Increment"
@@ -33,6 +36,8 @@ class Students extends React.Component {
           value="Decrement"
           onClick={this.props.decrementHandler}
         />
+        <br />
+        <hr />
       </React.Fragment>
     );
   }

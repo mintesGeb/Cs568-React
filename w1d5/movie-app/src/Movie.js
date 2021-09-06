@@ -4,7 +4,7 @@ class Movie extends React.Component {
   render() {
     return (
       <div>
-        <p> {this.props.title}</p>
+        <h3> {this.props.title}</h3>
         <input
           type="text"
           onChange={this.props.editTitle}
@@ -29,6 +29,7 @@ class Movie extends React.Component {
           value="Remove From Fav"
           disabled={this.props.disabledStateRFF}
         />
+        <div>=============================</div>
       </div>
     );
   }

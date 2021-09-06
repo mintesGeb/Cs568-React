@@ -3,6 +3,7 @@ import "./App.css";
 import React from "react";
 import Movie from "./Movie";
 import NewMovie from "./NewMovie";
+import Favorite from "./Favorite";
 
 class App extends React.Component {
   state = {
@@ -41,13 +42,16 @@ class App extends React.Component {
         isFavorite: false,
       },
     ],
-    favoriteMovie: [],
+    favoriteMovie: [{ id: 1, title: "movie 1", rating: 4, genre: "comedy" }],
     newMovie: {
       title: "",
       rating: 5,
       Genre: "",
     },
     noOfMovies: 3,
+    isAddingMovie: false,
+    isShowingMovies: false,
+    isShowingFavorites: false,
   };
   deleteMovie = (id) => {
     let result = this.state.movies.filter((movie) => movie.id !== id);
@@ -143,6 +147,9 @@ class App extends React.Component {
       },
     });
   };
+  setAddingMovieState = () => {
+    this.setState({ isAddingMovie: !this.state.isAddingMovie });
+  };
   addMovie = () => {
     console.log(this.state.newMovie);
     let newMovie = this.state.newMovie;
@@ -153,76 +160,122 @@ class App extends React.Component {
       noOfMovies: this.state.noOfMovies + 1,
     });
   };
+  showMovies = () => {
+    this.setState({ isShowingMovies: !this.state.isShowingMovies });
+  };
+  showFavorites = () => {
+    this.setState({ isShowingFavorites: !this.state.isShowingFavorites });
+  };
 
   render() {
-    let movieDisplay = this.state.movies.map((movie) => {
-      let basic = (
-        <Movie
-          key={movie.id}
-          id={movie.id}
-          title={movie.title}
-          rating={movie.rating}
-          genre={movie.genre}
-          deleteMovie={() => {
-            this.deleteMovie(movie.id);
-          }}
-          showDetail={() => {
-            this.showDetail(movie.id);
-          }}
-          favorite={() => this.addToFavorites(movie.id)}
-          addToFav={() => this.addToFav(movie.id)}
-          removeFromFav={() => this.removeFromFav(movie.id)}
-          disabledStateATF={movie.isFavorite}
-          disabledStateRFF={!movie.isFavorite}
-          editTitle={(event) => {
-            this.editTitle(movie.id, event);
-          }}
-        ></Movie>
-      );
-      let detailed = (
-        <Movie
-          key={movie.id}
-          id={movie.id}
-          title={movie.title}
-          rating={movie.rating}
-          genre={movie.genre}
-          director={movie.director}
-          year={movie.year}
-          description={movie.description}
-          deleteMovie={() => {
-            this.deleteMovie(movie.id);
-          }}
-          showDetail={() => {
-            this.showDetail(movie.id);
-          }}
-          addToFav={() => this.addToFav(movie.id)}
-          removeFromFav={() => this.removeFromFav(movie.id)}
-          disabledStateATF={movie.isFavorite}
-          disabledState={!movie.isFavorite}
-          editTitle={(event) => {
-            this.editTitle(movie.id, event);
-          }}
-        ></Movie>
-      );
-
-      if (movie.isDetailVisible) {
-        return detailed;
-      }
-      return basic;
-    });
-
-    return (
-      <div>
-        <h3>Movies</h3>
-        {movieDisplay}
-        <hr />
-        <h3>New Movie</h3>
+    let addMovieForm = null;
+    if (this.state.isAddingMovie) {
+      addMovieForm = (
         <NewMovie
           newMovieTitle={(event) => this.newMovieTitle(event)}
           newMovieRating={(event) => this.newMovieRating(event)}
           newMovieGenre={(event) => this.newMovieGenre(event)}
           addMovie={this.addMovie}
         />
+      );
+    }
+    let movieDisplay = null;
+    if (this.state.isShowingMovies) {
+      movieDisplay = this.state.movies.map((movie) => {
+        let basic = (
+          <Movie
+            key={movie.id}
+            id={movie.id}
+            title={movie.title}
+            rating={movie.rating}
+            genre={movie.genre}
+            deleteMovie={() => {
+              this.deleteMovie(movie.id);
+            }}
+            showDetail={() => {
+              this.showDetail(movie.id);
+            }}
+            favorite={() => this.addToFavorites(movie.id)}
+            addToFav={() => this.addToFav(movie.id)}
+            removeFromFav={() => this.removeFromFav(movie.id)}
+            disabledStateATF={movie.isFavorite}
+            disabledStateRFF={!movie.isFavorite}
+            editTitle={(event) => {
+              this.editTitle(movie.id, event);
+            }}
+          ></Movie>
+        );
+        let detailed = (
+          <Movie
+            key={movie.id}
+            id={movie.id}
+            title={movie.title}
+            rating={movie.rating}
+            genre={movie.genre}
+            director={movie.director}
+            year={movie.year}
+            description={movie.description}
+            deleteMovie={() => {
+              this.deleteMovie(movie.id);
+            }}
+            showDetail={() => {
+              this.showDetail(movie.id);
+            }}
+            addToFav={() => this.addToFav(movie.id)}
+            removeFromFav={() => this.removeFromFav(movie.id)}
+            disabledStateATF={movie.isFavorite}
+            disabledStateRFF={!movie.isFavorite}
+            editTitle={(event) => {
+              this.editTitle(movie.id, event);
+            }}
+          ></Movie>
+        );
+
+        if (movie.isDetailVisible) {
+          return detailed;
+        }
+        return basic;
+      });
+    }
+    let favMovieList = null;
+    if (this.state.isShowingFavorites) {
+      favMovieList = this.state.favoriteMovie.map((movie) => {
+        return (
+          <Favorite
+            key={movie.id}
+            title={movie.title}
+            rating={movie.rating}
+            genre={movie.genre}
+            remFroFav={() => this.removeFromFav(movie.id)}
+          />
+        );
+      });
+    }
+
+    return (
+      <div>
+        <input
+          type="button"
+          value="Show All Movies"
+          onClick={this.showMovies}
+        />
+
+        {movieDisplay}
+        <hr />
+        <input
+          type="button"
+          value="Show Favorite Movies"
+          onClick={this.showFavorites}
+        />
+        {favMovieList}
+
+        <hr />
+        <input
+          type="button"
+          value="Add a New Movie"
+          onClick={this.setAddingMovieState}
+        />
+        {addMovieForm}
       </div>
     );
   }

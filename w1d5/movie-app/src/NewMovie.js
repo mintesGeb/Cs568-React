@@ -2,17 +2,17 @@ function NewMovie(props) {
   return (
     <div>
       <div>
-        <span> Title </span>
+        <p> Title </p>
         <input type="text" onChange={props.newMovieTitle} />
-        <span> Rating </span>
+        <p> Rating </p>
         <input type="number" onChange={props.newMovieRating} />
-        <span> Genre </span>
+        <p> Genre </p>
         <input type="text" onChange={props.newMovieGenre} />
       </div>
       <input
-        className="addMovieBtn"
+        // className="addMovieBtn"
         type="button"
-        value="Add Movie"
+        value="Submit"
         onClick={props.addMovie}
       />
     </div>

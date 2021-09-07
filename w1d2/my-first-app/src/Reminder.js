@@ -8,31 +8,33 @@ class Reminder extends React.Component {
             <i>{this.props.title}</i>
           </b>
         </p>
+
+        <p>{this.props.description}</p>
+
+        <p>{this.props.date}</p>
         <input
-          className="updateFields"
+          //   className="updateFields"
           type="text"
           value={this.props.title}
           onChange={this.props.changeTitle}
         />
 
-        <p>{this.props.description}</p>
         <input
-          className="updateFields"
+          //   className="updateFields"
           type="text"
           value={this.props.description}
           onChange={this.props.changeDescription}
         />
 
-        <p>{this.props.date}</p>
         <input
-          className="updateFields"
+          //   className="updateFields"
           type="date"
           value={this.props.date}
           onChange={this.props.changeDate}
         />
 
         <input
-          className="updateFields"
+          //   className="updateFields"
           type="button"
           value="Update"
           onClick={this.props.updateClicked}

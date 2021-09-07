@@ -28,6 +28,7 @@ class App extends React.Component {
       date: "",
     },
     showAllReminders: false,
+    isUpdating: false,
   };
 
   addNewReminderFormToggle = () => {
@@ -114,7 +115,9 @@ class App extends React.Component {
     // console.log(this.state.reminders((rem) => rem.id === id));
     this.setState({ reminders: result });
   };
-  updateClicked = () => {};
+  updateClicked = (id) => {
+    this.setState({ isUpdating: !this.state.isUpdating });
+  };
 
   showAllReminders = () => {
     this.setState({ showAllReminders: !this.state.showAllReminders });
@@ -124,7 +127,7 @@ class App extends React.Component {
     let allReminders = null;
     if (this.state.showAllReminders) {
       allReminders = this.state.reminders.map((reminder) => {
-        return (
+        let basic = (
           <Reminder
             key={reminder.id}
             id={reminder.id}
@@ -142,6 +145,8 @@ class App extends React.Component {
             updateClicked={this.updateClicked}
           ></Reminder>
         );
+
+        return basic;
       });
     }
     let readyToAddNewMember = null;

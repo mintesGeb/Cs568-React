@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const getDB = require("../utils/database").getDB;
+const authController = require("../controller/authController");
 
 let students = [
   { id: 1, fname: "mintes", lname: "gebre", age: 30 },
@@ -26,23 +27,23 @@ router.get("/:fname", (req, res) => {
   });
 });
 
-router.post("/", (req, res) => {
-  let studentToAdd = {
-    _id: req.body._id,
-    fname: req.body.fname,
-    lname: req.body.lname,
-    age: req.body.age,
-    location: req.body.location,
-  };
+router.post("/", authController.authorizeAdmin, (req, res) => {
+  // let studentToAdd = {
+  //   _id: req.body._id,
+  //   fname: req.body.fname,
+  //   lname: req.body.lname,
+  //   age: req.body.age,
+  //   location: req.body.location,
+  // };
   getDB()
     .collection("students")
-    .insertOne(studentToAdd)
+    .insertOne(req.body)
     .then((data) => {
       res.json(data);
     });
 });
 
-router.put("/:fname", (req, res) => {
+router.put("/:fname", authController.authorizeAdmin, (req, res) => {
   getDB()
     .collection("students")
     .updateOne({ fname: req.params.fname }, { $set: req.body })
@@ -51,7 +52,7 @@ router.put("/:fname", (req, res) => {
     });
 });
 
-router.delete("/:fname", (req, res) => {
+router.delete("/:fname", authController.authorizeAdmin, (req, res) => {
   getDB()
     .collection("students")
     .remove({ fname: req.params.fname })

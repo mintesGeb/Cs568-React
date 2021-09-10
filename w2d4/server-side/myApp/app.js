@@ -6,7 +6,7 @@ var logger = require("morgan");
 let mongoConnect = require("./utils/database").mongoConnect;
 
 const authRouter = require("./routes/auth");
-var indexRouter = require("./routes/index");
+// var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 const moviesRouter = require("./routes/movies");
 const studentsRouter = require("./routes/students");
@@ -23,7 +23,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", authRouter);
-app.use("/", indexRouter);
+// app.use("/", indexRouter);
 app.use("/movies", moviesRouter);
 app.use("/students", studentsRouter);
 app.use("/users", usersRouter);

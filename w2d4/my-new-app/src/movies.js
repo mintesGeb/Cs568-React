@@ -8,7 +8,7 @@ class Movies extends React.PureComponent {
   //   return false;
   // }
   render() {
-    console.log("comp: render");
+    // console.log("comp: render");
     return (
       <div>
         <p>{this.props.name}</p>

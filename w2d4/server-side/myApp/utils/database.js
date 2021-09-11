@@ -1,4 +1,5 @@
 const MongoClient = require("mongodb").MongoClient;
+const { ObjectId } = require("mongodb");
 let _db;
 
 let mongoConnect = (callback) => {
@@ -20,3 +21,4 @@ function getDB() {
 
 exports.mongoConnect = mongoConnect;
 exports.getDB = getDB;
+exports.ObjectId = ObjectId;

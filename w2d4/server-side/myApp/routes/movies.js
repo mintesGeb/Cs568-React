@@ -11,8 +11,8 @@ router.get("/", (req, res) => {
   });
 });
 
-router.get("/:title", (req, res) => {
-  let movie = getDB().collection("movies").findOne({ name: req.params.title });
+router.get("/:id", (req, res) => {
+  let movie = getDB().collection("movies").findOne({ _id: new ObjectId(req.params.id )});
   movie.then((data) => {
     res.json(data);
   });

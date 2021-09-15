@@ -12,7 +12,8 @@ import ProductDetail from "./ProductDetailed";
 import NewProduct from "./NewProduct";
 import UpdateProduct from "./UpdateProduct";
 import Reviews from "./reviews";
-
+import CreateReview from "./CreateReview";
+import UpdateReview from "./UpdateReview";
 class App extends React.Component {
   state = {
     isLoggedIn: false,
@@ -39,6 +40,7 @@ class App extends React.Component {
           <div>
             <Link to="/">Home</Link>
           </div>
+
           {this.state.isLoggedIn ? null : (
             <ul>
               <li>
@@ -71,14 +73,23 @@ class App extends React.Component {
           ) : null}
         </div>
         {/* <Switch> */}
-          <Route path="/" exact component={Home} />
-          <Route path="/products" component={Products} />
-          <Route path="/login" component={Login} />
-          <Route path="/logout" component={LogoutPage} />
-          <Route path="/update-product/:id" component={UpdateProduct} />
-          <Route path="/create-product" component={NewProduct} />
-          <Route path="/product-detail/:id" component={ProductDetail} />
-          <Route path="/product-detail/:id/reviews" component={Reviews} />
+        <Route path="/" exact component={Home} />
+        <Route path="/products" component={Products} />
+        <Route path="/login" component={Login} />
+        <Route path="/logout" component={LogoutPage} />
+        <Route path="/update-product/:id" component={UpdateProduct} />
+        <Route path="/create-product" component={NewProduct} />
+        <Route path="/product-detail/:id" component={ProductDetail} />
+        <Route path="/product-detail/:id/reviews" component={Reviews} />
+        <Route
+          path="/product-detail/:id/reviews/create"
+          exact
+          component={CreateReview}
+        />
+        <Route
+          path="/product-detail/:id/reviews/edit/:rid"
+          component={UpdateReview}
+        />
         {/* </Switch> */}
       </BrowserRouter>
     );

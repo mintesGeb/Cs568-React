@@ -37,7 +37,16 @@
   }
 }
 
-.review{
+.review {
   border: dotted red 1px;
-  
+}
+.new-review {
+  margin-top: 20px;
+  padding: 20px;
+  border: dotted blue 1px;
+}
+.update-review {
+  margin-top: 20px;
+  padding: 20px;
+  border: dotted green 1px;
 }

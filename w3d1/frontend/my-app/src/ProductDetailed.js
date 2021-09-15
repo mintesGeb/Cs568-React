@@ -30,6 +30,11 @@ class Product extends React.Component {
       "/product-detail/" + this.props.match.params.id + "/reviews"
     );
   };
+  createReview = () => {
+    this.props.history.push(
+      "/product-detail/" + this.props.match.params.id + "/reviews/create"
+    );
+  };
 
   render() {
     return (
@@ -42,12 +47,13 @@ class Product extends React.Component {
         <p>{this.state.product.price}</p>
         <p>{this.state.product.brand}</p>
         <p>{this.state.product.model}</p>
+        <p>{this.state.product.reputation}</p>
         <hr />
         <input type="button" value="See Reviews⭐" onClick={this.showReviews} />
         <input
           type="button"
           value="Create A Review ⭐"
-          onClick={this.showReviews}
+          onClick={this.createReview}
         />
 
         <hr />
